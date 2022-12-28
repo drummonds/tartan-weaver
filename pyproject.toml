@@ -8,10 +8,15 @@ authors = ["drummonds <hum3@drummond.info>"]
 python = "^3.8"
 svgwrite = "^1.4.2"
 Pillow = "^9.1.1"
+black = {extras = ["jupyter"], version = "^22.3.0"}
+shiv = "^1.0.3"
+argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"
 jupyterlab = "^3.4.3"
+pytest = "^7.1.2"
+black = "^22.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
