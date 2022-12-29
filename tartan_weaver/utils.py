@@ -1,2 +1,3 @@
 class TartanException(Exception):
     pass
+

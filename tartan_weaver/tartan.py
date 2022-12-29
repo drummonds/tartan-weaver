@@ -2,7 +2,6 @@
 It is assumed to be half set symetric patterns
 """
 import re
-from .colours import PALETTE
 
 PATTERN = re.compile("([a-zA-Z]*)([0-9]*)")
 
@@ -10,6 +9,7 @@ PATTERN = re.compile("([a-zA-Z]*)([0-9]*)")
 def split_thread(threadcount):
     """Given a thread count such as R14, will split to R and integer 14"""
     threadcount = threadcount.replace("/","")
+    threadcount = threadcount.replace("'","")
     match = re.search(PATTERN, threadcount)
     if match:
         return match.group(1), match.group(2)
@@ -30,14 +30,7 @@ class Tartan:
         self.stripes = []
 
     @classmethod
-    def from_space_threadcount(cls, threadcount, palette):
-        global PALETTE
-        if palette:
-            PALETTE = {}
-            colours = palette.split(" ")
-            for colourCode in colours:
-                part     = colourCode.split("#")
-                PALETTE[part[0]] = part[1]
+    def from_space_threadcount(cls, threadcount):
         tartan = cls()
         threads = threadcount.split(" ")
         for thread in threads:

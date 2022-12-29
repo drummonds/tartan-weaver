@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 import sys
 
 sys.path.append("/home/hum3/major_projects/tartan-weaver")
-from tartan_weaver import Tartan, Weaver, PALETTE
+from tartan_weaver import Tartan, Weaver
 
 def main():
     parser = argparse.ArgumentParser(
@@ -42,9 +42,14 @@ def main():
     w.worp_gap = 0
     w.weft_width = 3
     w.worp_width = 3
-    w.tartan = Tartan.from_space_threadcount(args.threadcount, args.colours)
-    print(f"Palette = {PALETTE}\n")
-    w.weave()
+    palette = {}
+    colours = args.colours.split(" ")
+    for colourCode in colours:
+        part = colourCode.split("#")
+        palette[part[0]] = part[1]
+    w.tartan = Tartan.from_space_threadcount(args.threadcount)
+    PALETTE = palette 
+    w.weave(palette=palette)
     w.out.save(args.output, "PNG")
     w.out.show()
 

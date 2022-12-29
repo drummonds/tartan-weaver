@@ -2,8 +2,6 @@
 
 from .utils import TartanException
 
-PALETTE = None
-
 TartanColours = (
     ("LR", "Light Red", (0xE8CCB8, 0x878787, 0xEC34C4)),
     ("R", "Red"),
@@ -33,10 +31,9 @@ TartanColours = (
 )
 
 
-def tartan_colour_to_html_colour(colour):
-    global PALETTE
-    if PALETTE:
-        html_colour = PALETTE[colour]
+def tartan_colour_to_html_colour(colour, palette = None):
+    if palette:
+        html_colour = "#"+palette[colour]
         return html_colour
     if colour == "LR":
         return "lightred"

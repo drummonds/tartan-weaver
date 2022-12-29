@@ -57,8 +57,9 @@ class Weaver:
         self.worp_width = 25
         self.worp_gap = 10
         self.edge = 5
-        self.tartan = Tartan.from_space_threadcount("R1 B2", "R#ff0000 B#0000ff")
+        self.tartan = Tartan.from_space_threadcount("R1 B2")
         self.twill_harness = TwillHarness()
+        self.palette=None
 
     @property
     def num_wefts(self):
@@ -80,7 +81,7 @@ class Weaver:
         return self.height - ((1 + self.weft_counter) * self.weft_size)
 
     def add_weft(self):
-        colour = tartan_colour_to_html_colour(next(self.weft_gen))
+        colour = tartan_colour_to_html_colour(next(self.weft_gen), palette=self.palette)
         x0 = int(self.edge)
         x1 = int(self.width - self.edge)
         y0 = int(self.weft_counter_to_y())
@@ -90,7 +91,7 @@ class Weaver:
         )  # Remove stroke="black" as at high resolutions interferes with patterns
 
     def add_worp(self, worp_count):
-        colour = tartan_colour_to_html_colour(next(self.worp_gen))
+        colour = tartan_colour_to_html_colour(next(self.worp_gen), palette=self.palette)
         if next(self.twill_gen):  # over
             x0 = int(self.edge + worp_count * self.worp_size)
             x1 = int(x0 + self.worp_width)
@@ -107,8 +108,9 @@ class Weaver:
         #         insert=(self.edge + worp_count * self.worp_size,self.weft_counter_to_y()+self.weft_width),
         #         size=(self.worp_width,self.weft_gap/2), fill="black"))
 
-    def weave(self):
+    def weave(self, palette=None):
         """Weaving starts for bottom left going up and right"""
+        self.palette = palette
         self.twill_gen = self.twill_harness.create_generator()
         self.weft_gen = self.tartan.create_generator()
         for i in range(self.num_wefts):
